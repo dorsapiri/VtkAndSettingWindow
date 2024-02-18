@@ -102,12 +102,10 @@ namespace VtkAndSettingWindow_sample.ViewModel
             reslice.SetSlabNumberOfSlices(slabNumberOfSlices);
             //Axis Rotation
             vtkTransform transformAxis = new();
-            //-----this rotation made it like Linatech
-            //transformAxis.RotateZ(TableAngel);
             transformAxis.RotateZ(-TableAngel);
             transformAxis.RotateY(GantAngel);
             reslice.SetResliceAxes(transformAxis.GetMatrix());
-            //------------------------------------
+            
             reslice.Update();
             return reslice.GetOutput();
         }
@@ -115,7 +113,7 @@ namespace VtkAndSettingWindow_sample.ViewModel
         {
             vtkImageActor actor = new();
             actor.SetInputData(imageData);
-            var lastActor =renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().GetActors().GetLastActor();
+            var lastActor =renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().GetActors().GetNextActor();
 
             renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().RemoveActor(lastActor);
             renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().AddActor(actor);

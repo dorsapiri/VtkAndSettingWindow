@@ -47,37 +47,28 @@ namespace VtkAndSettingWindow_sample.ViewModel
 		}
         #endregion
         private VtkWindowVM _vm;
-        //public ICommand btnCalculateDrr;
         #endregion
+        #region Methods
+        #region Constructor
         public DrrTransformVM(VtkWindowVM vtkWindowVM)
         {
             _vm = vtkWindowVM;
-            //btnCalculateDrr = new RelayCommand(doDrrCalculate);
         }
-        private void test()
-        {
-            var gant = txtGantAngel;
-            var table = txtTableAngle;
-            
-           
-        }
+        #endregion
+        #region Calculate Drr Button
         public void Button_Click(object sender, RoutedEventArgs e)
         {
             var imagedata = _vm.transformedImageData;
             var drrRotation = _vm.DRRrotation(imagedata, txtGantAngel, txtTableAngle);
-            var lastActor = _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().GetActors().GetLastActor();
+            var lastActor = _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().GetActors();
 
-            _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().RemoveActor(lastActor);
+            _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().RemoveActor(lastActor.GetLastActor());
             vtkImageActor actor = new();
             actor.SetInputData(drrRotation);
             _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().AddActor(actor);
             //_vm.RenderDicom(drrRotation);
         }
-        /*private void doDrrCalculate()
-        {
-            var imagedata = _vm.transformedImageData;
-            var drrRotation = _vm.DRRrotation(imagedata, txtGantAngel, txtTableAngle);
-            _vm.RenderDicom(drrRotation);
-        }*/
+        #endregion
+        #endregion
     }
 }
