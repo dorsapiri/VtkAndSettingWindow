@@ -60,15 +60,6 @@ namespace VtkAndSettingWindow_sample.ViewModel
         {
             var imagedata = _vm.transformedImageData;
             var drrRotation = _vm.DRRrotation(imagedata, txtGantAngel, txtTableAngle);
-            
-            /*vtkActor lastActor = _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().GetActors().GetLastActor();
-
-            _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().RemoveActor(lastActor);
-            vtkImageActor actor = new();
-            actor.SetInputData(drrRotation);
-            actor.Update();
-            _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().AddActor(actor);
-            _vm.renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().Render();*/
             _vm.RenderDicom(drrRotation);
         }
         #endregion

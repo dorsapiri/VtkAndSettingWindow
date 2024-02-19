@@ -15,6 +15,7 @@ namespace VtkAndSettingWindow_sample.ViewModel
 {
     class VtkWindowVM : INotifyPropertyChanged
     {
+        #region Properties
         #region Property Changed
         public event PropertyChangedEventHandler? PropertyChanged;
         protected void onPropertyChanged(string propertyName)
@@ -24,8 +25,9 @@ namespace VtkAndSettingWindow_sample.ViewModel
         #endregion
         public DrrTransformVM drrTransformVM { get; set; }
         public vtkImageData transformedImageData;
+        vtkImageActor actor;
+        #region RenderWindowControl Property
         private RenderWindowControl _renderWindowControl;
-        vtkImageActor actor = new();
         public RenderWindowControl renderWindowControl
         {
             get { return _renderWindowControl; }
@@ -35,14 +37,18 @@ namespace VtkAndSettingWindow_sample.ViewModel
                 onPropertyChanged(nameof(renderWindowControl));
             }
         }
+        #endregion
+        #endregion
 
-        
-        
+        #region Methods
+        #region Constroctor
         public VtkWindowVM()
         {
             drrTransformVM = new DrrTransformVM( this );
+            actor = new();
         }
-
+        #endregion
+        #region WindowsFormHost Loaded
         public void WindowsFormsHost_Loaded(object sender, RoutedEventArgs e)
         {
             if (renderWindowControl == null)
@@ -59,6 +65,8 @@ namespace VtkAndSettingWindow_sample.ViewModel
             var drrRotation = DRRrotation(transformedImageData, drrTransformVM.txtGantAngel, drrTransformVM.txtTableAngle);
             RenderDicom(drrRotation);
         }
+        #endregion
+        #region Read Dicoms
         private vtkImageData ReadDicomDirectory(string path)
         {
             vtkDICOMImageReader reader = new vtkDICOMImageReader();
@@ -69,11 +77,12 @@ namespace VtkAndSettingWindow_sample.ViewModel
             imageData.SetOrigin(-center[0], -center[1], -center[2]);//Move Images center into (0,0,0)
             return imageData;
         }
+        #endregion
+        #region Initial Gant
         private vtkImageData transformeImageDataWithReslice(vtkImageData imageData)
         {
             //Rotate ImageData
             vtkTransform transform = new();
-            //transform.RotateY(180);
             transform.RotateX(-90);
 
             vtkImageReslice reslice = new();
@@ -86,9 +95,10 @@ namespace VtkAndSettingWindow_sample.ViewModel
             vtkImageData transformedImageData = reslice.GetOutput();
             return transformedImageData;
         }
+        #endregion
+        #region DRR, Rotate Gant and Table
         public vtkImageData DRRrotation(vtkImageData imageData, int GantAngel, int TableAngel)
         {
-
             int slabNumberOfSlices = imageData.GetDimensions()[0] * (int)imageData.GetSpacing()[2];
 
             // Convert the DICOM images to a 3D volume
@@ -109,10 +119,10 @@ namespace VtkAndSettingWindow_sample.ViewModel
             reslice.Update();
             return reslice.GetOutput();
         }
-        
+        #endregion
+        #region Render Rotated DRR
         public void RenderDicom(vtkImageData imageData)
         {
-            
             actor.SetInputData(imageData);
             actor.Update();
             
@@ -120,5 +130,7 @@ namespace VtkAndSettingWindow_sample.ViewModel
             renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().Render();
             renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().ResetCamera();
         }
+        #endregion
+        #endregion
     }
 }
