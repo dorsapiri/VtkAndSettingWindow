@@ -25,7 +25,7 @@ namespace VtkAndSettingWindow_sample.ViewModel
         public DrrTransformVM drrTransformVM { get; set; }
         public vtkImageData transformedImageData;
         private RenderWindowControl _renderWindowControl;
-
+        vtkImageActor actor = new();
         public RenderWindowControl renderWindowControl
         {
             get { return _renderWindowControl; }
@@ -40,7 +40,7 @@ namespace VtkAndSettingWindow_sample.ViewModel
         
         public VtkWindowVM()
         {
-            drrTransformVM = new DrrTransformVM( this);
+            drrTransformVM = new DrrTransformVM( this );
         }
 
         public void WindowsFormsHost_Loaded(object sender, RoutedEventArgs e)
@@ -109,13 +109,13 @@ namespace VtkAndSettingWindow_sample.ViewModel
             reslice.Update();
             return reslice.GetOutput();
         }
+        
         public void RenderDicom(vtkImageData imageData)
         {
-            vtkImageActor actor = new();
+            
             actor.SetInputData(imageData);
-            var lastActor =renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().GetActors().GetNextActor();
-
-            renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().RemoveActor(lastActor);
+            actor.Update();
+            
             renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().AddActor(actor);
             renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().Render();
             renderWindowControl.RenderWindow.GetRenderers().GetFirstRenderer().ResetCamera();
