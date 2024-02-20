@@ -59,7 +59,7 @@ namespace VtkAndSettingWindow_sample.ViewModel
             }
             renderWindowControl.RenderWindow.Render();
             renderWindowControl.RenderWindow.GetInteractor().SetInteractorStyle(vtkInteractorStyleImage.New());
-            string directoryPath = @"D:\Study_1 _ CompleteS";
+            string directoryPath = @"C:\Users\k703528\Documents\Study_1 _ CompleteS";
             var imageData = ReadDicomDirectory(directoryPath);
             transformedImageData = transformeImageDataWithReslice(imageData);
             var drrRotation = DRRrotation(transformedImageData, drrTransformVM.txtGantAngel, drrTransformVM.txtTableAngle);

@@ -9,7 +9,6 @@
         xmlns:view="clr-namespace:VtkAndSettingWindow_sample.View"
         xmlns:helper="clr-namespace:VtkAndSettingWindow_sample.helpers" 
         xmlns:viewmodel="clr-namespace:VtkAndSettingWindow_sample.ViewModel" d:DataContext="{d:DesignInstance Type=viewmodel:VtkWindowVM}"
-        
         mc:Ignorable="d"
         Title="VtkWindow" Height="450" Width="900">
     <Grid>
@@ -22,19 +21,14 @@
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <!--<helper:VtkRenderWindowContolHelper.RenderWindow="{Binding  renderWindowControl}"/>-->
         
-        <!--<WindowsFormsHost Grid.RowSpan="3" 
-                          Grid.Column="1" 
-                          helper:WindowsFormsHostHelper.LoadedCommand="{Binding onLoaded, Mode=TwoWay}"
-                          Loaded="WindowsFormsHost_Loaded">-->
-            <WindowsFormsHost Grid.RowSpan="3" Grid.Column="1">
-                <b:Interaction.Triggers>
-                    <b:EventTrigger EventName="Loaded">
-                        <b:CallMethodAction MethodName="WindowsFormsHost_Loaded" TargetObject="{Binding}" />
-                    </b:EventTrigger>
-                </b:Interaction.Triggers>
-            <vtk:RenderWindowControl/>
+        <WindowsFormsHost Grid.RowSpan="3" Grid.Column="1">
+            <b:Interaction.Triggers>
+                <b:EventTrigger EventName="Loaded">
+                    <b:CallMethodAction MethodName="WindowsFormsHost_Loaded" TargetObject="{Binding}" />
+                </b:EventTrigger>
+            </b:Interaction.Triggers>
+        <vtk:RenderWindowControl/>
         </WindowsFormsHost>
         <view:DrrTransformV Grid.Row="1" Margin="0,0,7,0" DataContext="{Binding drrTransformVM}"/>
     </Grid>
